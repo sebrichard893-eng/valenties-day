@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Valentine 💘</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #ff8fab, #ffc2d1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .card {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+      max-width: 350px;
+    }
+
+    h1 {
+      color: #ff4d6d;
+      margin-bottom: 25px;
+    }
+
+    button {
+      padding: 12px 30px;
+      font-size: 18px;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      margin: 10px;
+      transition: 0.3s;
+    }
+
+    .yes {
+      background: #ff4d6d;
+      color: white;
+    }
+
+    .yes:hover {
+      transform: scale(1.1);
+    }
+
+    .no {
+      background: #aaa;
+      color: white;
+    }
+
+    /* Valentine Screen */
+    .valentine {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #ff4d6d, #ff85a1);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-align: center;
+    }
+
+    .valentine h2 {
+      font-size: 48px;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    .flower {
+      position: absolute;
+      bottom: -40px;
+      font-size: 28px;
+      animation: floatUp linear infinite;
+    }
+
+    @keyframes floatUp {
+      from {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      to {
+        transform: translateY(-120vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card" id="card">
+    <h1 id="question">Would you be my Valentine? 💖</h1>
+    <button class="yes" onclick="yesClicked()">Yes 💘</button>
+    <button class="no" onclick="noClicked()">No 😢</button>
+  </div>
+
+  <div class="valentine" id="valentine">
+    <h2>Happy Valentine’s Day  ❤️
+    </h2>
+  </div>
+
+  <script>
+    const questions = [
+      "Are you sure? 🤨",
+      "Really sure?? 😐",
+      "Come on… be serious 😭",
+      "Think about it again 💔",
+      "Last chance 😳",
+      "Okay now you’re just playing 😤"  
+    ];
+
+    let noCount = 0;
+
+    function noClicked() {
+      const question = document.getElementById("question");
+
+      if (noCount < questions.length) {
+        question.textContent = questions[noCount];
+      } else {
+        question.textContent = "You know you want to say YES 😏❤️";
+      }
+
+      noCount++;
+
+      // subtle guilt trip: grow YES button
+      const yesBtn = document.querySelector(".yes");
+      yesBtn.style.transform = `scale(${1 + noCount * 0.05})`;
+    }
+
+    function yesClicked() {
+      document.getElementById("card").style.display = "none";
+      const valentine = document.getElementById("valentine");
+      valentine.style.display = "flex";
+
+      for (let i = 0; i < 45; i++) {
+        spawnFlower();
+      }
+    }
+
+    function spawnFlower() {
+      const flower = document.createElement("div");
+      flower.className = "flower";
+      flower.innerHTML = ["🌸","🌹","🌺","🌷"][Math.floor(Math.random() * 4)];
+      flower.style.left = Math.random() * 100 + "vw";
+      flower.style.animationDuration = (3 + Math.random() * 5) + "s";
+      document.body.appendChild(flower);
+
+      setTimeout(() => flower.remove(), 8000);
+    }
+  </script>
+
+</body>
+</html>
