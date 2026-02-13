@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Valentine Experience 💝</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      overflow-x: hidden;
+      background: linear-gradient(120deg, #1a1a2e, #16213e, #0f3460);
+      background-size: 400% 400%;
+      animation: bgMove 15s ease infinite;
+      color: white;
+    }
+
+    @keyframes bgMove {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    #opening {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+      background: black;
+      z-index: 50;
+    }
+
+    .animateText {
+      font-size: 2.5rem;
+      opacity: 0;
+      animation: fadeIn 3s forwards;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    .container {
+      text-align: center;
+      padding: 40px 20px;
+      display: none;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 15px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    button {
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      background: rgba(255,255,255,0.15);
+      color: white;
+      backdrop-filter: blur(10px);
+      transition: .2s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      background: rgba(255,255,255,0.25);
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 60;
+    }
+
+    .modal-content {
+      padding: 25px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(20px);
+      text-align: center;
+    }
+
+    input {
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      margin-top: 10px;
+      width: 220px;
+      max-width: 90%;
+    }
+
+    .message {
+      display: none;
+      position: fixed;
+      inset: 0;
+      padding: 30px;
+      overflow-y: auto;
+      z-index: 70;
+    }
+
+    .glass {
+      max-width: 800px;
+      margin: auto;
+      padding: 30px;
+      border-radius: 25px;
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(25px);
+      white-space: pre-line;
+      line-height: 1.5;
+    }
+
+    .flower {
+      position: fixed;
+      top: -10%;
+      font-size: 24px;
+      animation: fallFlower linear forwards;
+      pointer-events: none;
+    }
+
+    @keyframes fallFlower {
+      to {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<audio id="bgMusic" loop>
+  <source src="music.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+
+<!-- OPENING -->
+<div id="opening">
+  <div class="animateText">
+    💖 Happy Valentine’s Day To Every Single One Of You 💖
+    <br><br>
+    You are appreciated. You are valued. You are important.
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="container" id="main">
+  <h1>💌 Choose Your Name</h1>
+  <div class="buttons" id="buttons"></div>
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <h3 id="modalTitle"></h3>
+    <input type="password" id="password" placeholder="Enter password">
+    <br><br>
+    <button onclick="unlock()">Open 💖</button>
+    <br><br>
+    <button onclick="closeModal()">Cancel</button>
+  </div>
+</div>
+
+<!-- MESSAGE -->
+<div class="message" id="message">
+  <div class="glass" id="messageContent"></div>
+  <br>
+  <div style="text-align:center">
+    <button onclick="closeMessage()">Close</button>
+  </div>
+</div>
+
+<script>
+  setTimeout(() => {
+    document.getElementById("opening").style.display = "none";
+    document.getElementById("main").style.display = "block";
+  }, 5000);
+
+  const music = document.getElementById("bgMusic");
+
+  const people = {
+    "20079": {
+      name: "Denise",
+      colors: "linear-gradient(120deg,limegreen,purple)",
+      text: `Denise 💚💜
+
+From the very first moment, you stood out in a way that feels rare and powerful. You are not just intelligent in academics, you are intelligent in mindset, in awareness, and in the way you carry yourself. Ms 4Eyes 😌 those glasses don’t just sit on your face, they frame the brilliance behind them. You are thoughtful, analytical, observant, and incredibly self-aware. What makes you even more admirable is that you truly love yourself. You don’t beg for validation. You don’t dim your light. You understand your worth and walk in it confidently.
+
+You have a quiet strength that commands respect without force. The way you speak, the way you think, the way you respond to situations shows maturity beyond your years. You balance independence and kindness so well. You are focused on your goals, yet you still radiate warmth. That combination is powerful.
+
+I genuinely hope you continue building your dreams without hesitation. Never reduce yourself to fit into smaller spaces. Never question your brilliance. You are beautiful, not just physically, but mentally and emotionally. Today is about appreciation, and I want you to know you are valued deeply. Stay confident. Stay intelligent. Stay self loved. The world needs more women like you.`
+    },
+    "5801": {
+      name: "Precious",
+      colors: "linear-gradient(120deg,gold,pink)",
+      text: `Precious 💛💖
+
+Your name truly reflects who you are. There is something gentle yet powerful about your presence. You carry yourself with grace and calmness that makes people feel comfortable around you. You might not always seek attention, but your energy naturally draws respect. That quiet strength is something special.
+
+You have a way of listening that feels intentional. When you speak, your words feel meaningful. That balance of humility and strength makes you unforgettable. You do not force yourself into spaces  you grow naturally into them. That is maturity. That is confidence without noise.
+
+I hope you continue trusting yourself and your abilities. You have so much potential, and I want to see you grow into every dream you carry. Never doubt your value. Never question whether you matter. You do. Your presence makes a difference.
+  
+  Though I met you online am thank for being my friend hope we continue be friend till the end of time thank
+
+On this Valentine’s Day, I simply want you to know that you are appreciated. Not for what you do, but for who you are. Keep shining in your own unique way. Keep growing. Keep believing in yourself.`
+    },
+    "4790": {
+      name: "Mwezi",
+      colors: "linear-gradient(120deg,black,white)",
+      text: `Mwezi ⚫⚪
+
+Even if you say you are not my best friend, in my eyes you truly are one of the most solid people in my life. Friendship is not about loud moments or constant noise. It is about consistency, reliability, and quiet loyalty. And you have shown that consistently, I think? just kidding.
+
+we may not always talk the most just the 2 of us, but your presence carries weight. There is something dependable about you. You are steady. You are grounded. You are real. Those qualities are rare. I appreciate how you move with calm confidence and how you stay true to yourself.
+
+I want you to win in life. I want you to succeed in your career, in your goals, and in your personal growth. You deserve growth and success. Never underestimate your importance in the lives around you. You matter more than you realize, but one thing never forget about me plz. when ever u find something always remember your simpson.`
+    },
+    "3681": {
+      name: "Benjamin",
+      colors: "linear-gradient(120deg,grey,white)",
+      text: `Benjamin 🤍
+
+Your confidence is something I genuinely respect. The way you walk, speak, and present yourself shows belief. And belief is powerful. Confidence changes opportunities. It opens doors before you even knock. You naturally carry that energy.
+
+I look up to how fearless you can be. Even when things are uncertain, you maintain composure. That mindset will take you far. I truly want to see you succeed in life  not just financially, but mentally and emotionally as well.
+
+Keep pushing your limits. Keep setting high standards. The world rewards people who believe in themselves, and you already have that foundation. Stay focused. Stay driven. Keep aiming higher.but bro never in your life should you ever for get about me even if you become a rich nigga .`
+    },
+    "2579": {
+      name: "Angel",
+      colors: "linear-gradient(120deg,blue,red)",
+      text: `Angel 🔵🔴
+
+Your creativity is powerful. The talent you have for manga and storytelling is not ordinary. You think differently. You imagine differently. That is a gift. Many people dream of creating, but few actually do it. You do.
+
+I admire your dedication to your craft. Art requires discipline, and you are building that discipline. Keep refining your skills. Keep studying. Keep experimenting. Your potential is real.
+
+Never let doubt silence your creativity. Keep drawing. Keep writing. Keep building your universe. One day, people will look at your work and see greatness. Stay consistent. Stay inspired.Remember if you go to japan don't forget about me but am thankful for being my friend u are the best, man.`
+    },
+    "5458": {
+      name: "Daniel",
+      colors: "linear-gradient(120deg,green,orange)",
+      text: `Daniel 🟢🟠
+
+Even though you might disappear like a ghost sometimes, you are still valued. Presence is not always loud. Sometimes it is subtle but meaningful. You bring balance to the group.
+
+Thank you for being a friend in your own way. Every friendship looks different, and yours has its own uniqueness. You are appreciated more than you probably think.
+
+Keep growing into your own path. Keep building your goals quietly if you must, but keep building. Success does not require noise  it requires consistency.But don't think I never knew about your ayanokoji routine,anyways thank u for being my friend and greet David.`
+    },
+    "0337": {
+      name: "Chatowa",
+      colors: "linear-gradient(120deg,grey,green)",
+      text: `Chatowa 💚
+
+Seven years is not a small thing. That is history. That is loyalty. That is shared memories and growth. Being besties for that long shows depth and trust.
+
+Through ups and downs, you have remained constant. That kind of stability is rare. I appreciate every conversation, every joke, every serious moment we have shared.
+
+I hope our friendship continues evolving and growing stronger. Loyalty like this is valuable. Thank you for being there consistently for seven good years.But don't get over yourself plz and am thankful for the love you've shown me though I feel am boring to be with.`
+    },
+    "1226": {
+      name: "Chimwemwe",
+      colors: "linear-gradient(120deg,pink,limegreen)",
+      text: `Chimwemwe 🌸💚
+
+You carry beauty in a way that feels effortless. It is not just about appearance  it is in your smile, your energy, and your personality. You have a presence that stands out naturally.
+
+I admire you deeply. There is something graceful about how you exist. You don’t force attention, but you receive it because you deserve it.
+
+  I want you to do me a favour. Never forget us plz anywhere you go always remember I've go friends. Thank you for accepting me to be your friend thanks
+  
+Never forget how beautiful you are  inside and outside. Continue growing confidently into everything you want to become.`
+    },
+    "9115": {
+      name: "Mercy",
+      colors: "linear-gradient(120deg,pink,grey)",
+      text: `Mercy 💗
+
+Your friendship is appreciated more than you know. You bring sincerity and calmness into conversations. That steadiness is valuable.
+
+I hope you continue becoming stronger, wiser, and more confident in everything you pursue. You deserve happiness and growth.
+
+  I wouldn't ask for more you are enough to me hope you will always be there for me and I myself will be always be there for you till the end of time thank you mercy.A friendship that start from scratch to something beautiful
+  
+Thank you for being my friend and for being genuine.`
+    },
+    "8104": {
+      name: "Grace",
+      colors: "linear-gradient(120deg,purple,blue)",
+      text: `Grace 💜💙
+
+Even though we are online friends, that connection still matters. Friendship does not depend on physical proximity. It depends on mutual respect and understanding.
+
+I am genuinely glad you are part of my life in this way. Conversations, messages, and shared moments still hold value.
+
+Wishing you growth, success, and happiness in everything you pursue.`
+    },
+    "3093": {
+      name: "Mutinta",
+      colors: "linear-gradient(120deg,orange,limegreen)",
+      text: `Mutinta 🧡💚
+
+Years of friendship without meeting face to face shows something real. That is connection beyond distance. That is trust built over time.
+
+Your beauty is undeniable, but your personality is what truly stands out. You are thoughtful and genuine.
+
+I appreciate the consistency and loyalty over the years. May our friendship continue growing stronger.`
+    },
+    "4182": {
+      name: "Walu",
+      colors: "linear-gradient(120deg,green,yellow,black,white,red,blue)",
+      text: `Walu 🇿🇦
+
+Your energy is unmatched. The amapiano vibe, the support, and the consistency in friendship never go unnoticed.
+
+You bring life into spaces. That energy is powerful. Keep being bold and supportive.
+
+Friendship like yours is appreciated.`
+    },
+    "7971": {
+      name: "Sheila",
+      colors: "pink",
+      text: `Sheila ❄️
+
+Being a sister is a powerful role. Thank you for being that consistently. Support, guidance, and shared understanding matter deeply.
+
+Though you are not my biological sis,I concider you one to me and  I appreciate your presence and strength.
+
+Wishing you continued happiness and peace.`
+    },
+    "6298": {
+      name: "Towela",
+      colors: "orange",
+      text: `Towela 🧡
+
+Our friendship holds value and meaning. I am thankful for the conversations and shared understanding.
+
+  Though we don't talk much am thankful for all the experince you showed me thank you
+  
+May you continue growing into your goals confidently.
+
+You are appreciated.`
+    },
+    "2487": {
+      name: "Mapalo",
+      colors: "linear-gradient(120deg,green,blue)",
+      text: `Mapalo 💚💙
+
+Seven years of friendship is solid. That is loyalty and shared growth. Being best friends means understanding each other deeply — even down to liking the same type of girls 😅.
+
+I appreciate the consistency and brotherhood.
+
+May we continue growing and succeeding together.`
+    }
+  };
+
+  let current = "";
+
+  const buttonsDiv = document.getElementById("buttons");
+
+  Object.keys(people).forEach(key => {
+    const btn = document.createElement("button");
+    btn.textContent = people[key].name;
+    btn.onclick = () => openModal(key);
+    buttonsDiv.appendChild(btn);
+  });
+
+  function openModal(key) {
+    current = key;
+    document.getElementById("modal").style.display = "flex";
+    document.getElementById("modalTitle").textContent = people[key].name;
+    document.getElementById("password").value = "";
+  }
+
+  function closeModal() {
+    document.getElementById("modal").style.display = "none";
+  }
+
+  function unlock() {
+    const input = document.getElementById("password").value.trim().toLowerCase();
+    if (input === current.toLowerCase()) {
+      showMessage();
+    } else {
+      alert("Wrong password 😅");
+    }
+  }
+
+  function showMessage() {
+    closeModal();
+    const msgDiv = document.getElementById("message");
+    msgDiv.style.display = "block";
+    msgDiv.style.background = people[current].colors;
+    document.getElementById("messageContent").textContent = people[current].text;
+    music.play().catch(e => console.log("Audio autoplay blocked:", e));
+    flowers();
+  }
+
+  function closeMessage() {
+    document.getElementById("message").style.display = "none";
+    music.pause();
+  }
+
+  function flowers() {
+    for (let i = 0; i < 40; i++) {
+      const f = document.createElement("div");
+      f.className = "flower";
+      f.textContent = "🌸";
+      f.style.left = Math.random() * 100 + "vw";
+      f.style.animationDuration = (4 + Math.random() * 4) + "s";
+      document.body.appendChild(f);
+      setTimeout(() => f.remove(), 8000);
+    }
+  }
+</script>
+
+</body>
+</html>
